@@ -12,16 +12,16 @@ import com.econet.EcoNetApplication;
 import com.econet.R;
 import com.econet.app.ErrorHandler;
 
-public class SingleFragmentToolbarActivity extends ActionBarActivity {
+public class SingleFragmentActivity extends ActionBarActivity {
 
     private static final String EXTRA_FRAGMENT_NAME = "EXTRA_FRAGMENT_NAME";
     private Toolbar toolbar;
 
     public static <TFragment extends Fragment> Intent newIntent(Context context, Class<TFragment> fragmentName, Bundle fragmentArgs) {
-        return SingleFragmentToolbarActivity.newIntent(context, fragmentName, fragmentArgs, SingleFragmentToolbarActivity.class);
+        return SingleFragmentActivity.newIntent(context, fragmentName, fragmentArgs, SingleFragmentActivity.class);
     }
 
-    public static <TFragment extends Fragment, TActivity extends SingleFragmentToolbarActivity> Intent newIntent(Context context, Class<TFragment> fragmentName, Bundle fragmentArgs, Class<TActivity> activityClass) {
+    public static <TFragment extends Fragment, TActivity extends SingleFragmentActivity> Intent newIntent(Context context, Class<TFragment> fragmentName, Bundle fragmentArgs, Class<TActivity> activityClass) {
         Intent intent = new Intent(context, activityClass);
         Bundle extras;
         if (fragmentArgs != null) {
