@@ -132,10 +132,10 @@ public class RxFragment extends DialogFragment {
                 .commit();
     }
 
-    protected void presentError(String title, String message) {
-        ErrorFragment dialog = ErrorFragment.newInstance(title, message);
-        dialog.show(getFragmentManager(), ErrorFragment.TAG);
-    }
+//    protected void presentError(String title, String message) {
+//        ErrorFragment dialog = ErrorFragment.newInstance(title, message);
+//        dialog.show(getFragmentManager(), ErrorFragment.TAG);
+//    }
 
     public Toolbar getToolbar() {
         return toolbar;
@@ -143,7 +143,7 @@ public class RxFragment extends DialogFragment {
 
     protected <T> Subscription blockingSubscribe(Observable<T> observable, Observer<T> observer) {
         Subscription subscription = observe(observable)
-                .finallyDo(this::dismissBlockingProgress)
+                .finallyDo(() -> dismissBlockingProgress())
                 .subscribe(observer);
         showBlockingProgress(subscription);
         return subscription;
