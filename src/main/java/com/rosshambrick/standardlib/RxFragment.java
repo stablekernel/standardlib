@@ -2,17 +2,9 @@ package com.rosshambrick.standardlib;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
-
-import com.econet.BuildConfig;
-import com.econet.EcoNetApplication;
-import com.econet.R;
-import com.econet.app.BlockingProgressFragment;
-import com.econet.app.ErrorFragment;
-import com.econet.app.ErrorHandler;
 
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -21,9 +13,10 @@ import rx.Subscription;
 import rx.android.app.AppObservable;
 import rx.android.lifecycle.LifecycleEvent;
 import rx.android.lifecycle.LifecycleObservable;
+import rx.functions.Action0;
 import rx.subjects.BehaviorSubject;
 
-public class RxFragment extends DialogFragment {
+public abstract class RxFragment extends DialogFragment {
 
     private BlockingProgressFragment blockingProgressFragment;
     private Toolbar toolbar;
@@ -34,6 +27,8 @@ public class RxFragment extends DialogFragment {
         return lifecycleSubject.asObservable();
     }
 
+    abstract protected boolean isDebug();
+
     @Override
     public void onAttach(android.app.Activity activity) {
         super.onAttach(activity);
@@ -43,7 +38,6 @@ public class RxFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EcoNetApplication.inject(this);
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
         lifecycleSubject.onNext(LifecycleEvent.CREATE);
@@ -123,27 +117,18 @@ public class RxFragment extends DialogFragment {
         }
     }
 
-    @Deprecated
-    protected void showFragment(Fragment fragment) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.content_container, fragment)
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .commit();
-    }
-
-//    protected void presentError(String title, String message) {
-//        ErrorFragment dialog = ErrorFragment.newInstance(title, message);
-//        dialog.show(getFragmentManager(), ErrorFragment.TAG);
-//    }
-
     public Toolbar getToolbar() {
         return toolbar;
     }
 
     protected <T> Subscription blockingSubscribe(Observable<T> observable, Observer<T> observer) {
         Subscription subscription = observe(observable)
-                .finallyDo(() -> dismissBlockingProgress())
+                .finallyDo(new Action0() {
+                    @Override
+                    public void call() {
+                        RxFragment.this.dismissBlockingProgress();
+                    }
+                })
                 .subscribe(observer);
         showBlockingProgress(subscription);
         return subscription;
@@ -176,7 +161,7 @@ public class RxFragment extends DialogFragment {
     }
 
     protected void debugToast(int messageResId) {
-        if (BuildConfig.DEBUG) {
+        if (isDebug()) {
             Toast.makeText(getActivity(), messageResId, Toast.LENGTH_LONG).show();
         }
     }

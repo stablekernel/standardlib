@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.econet.R;
-
 import rx.Subscription;
 
 public class BlockingProgressFragment extends DialogFragment {

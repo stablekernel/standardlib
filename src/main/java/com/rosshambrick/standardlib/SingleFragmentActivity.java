@@ -8,12 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.econet.EcoNetApplication;
-import com.econet.R;
-import com.econet.app.ErrorHandler;
-
 public class SingleFragmentActivity extends ActionBarActivity {
-
     private static final String EXTRA_FRAGMENT_NAME = "EXTRA_FRAGMENT_NAME";
     private Toolbar toolbar;
 
@@ -37,7 +32,7 @@ public class SingleFragmentActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EcoNetApplication.inject(this);
+//        EcoNetApplication.inject(this);
         setContentView(R.layout.activity_single_fragment);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,7 +40,7 @@ public class SingleFragmentActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.single_fragment_container, getFragment())
+                    .replace(R.id.fragment_container, getFragment())
                     .commit();
         }
     }
