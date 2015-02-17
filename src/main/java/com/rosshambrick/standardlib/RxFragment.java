@@ -122,7 +122,7 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected <T> Subscription blockingSubscribe(Observable<T> observable, Observer<T> observer) {
-        Subscription subscription = observe(observable)
+        Subscription subscription = bind(observable)
                 .finallyDo(new Action0() {
                     @Override
                     public void call() {
@@ -135,11 +135,11 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected <T> Subscription subscribe(Observable<T> observable, Observer<T> observer) {
-        Observable<T> boundObservable = observe(observable);
+        Observable<T> boundObservable = bind(observable);
         return boundObservable.subscribe(observer);
     }
 
-    protected <T> Observable<T> observe(Observable<T> observable) {
+    protected <T> Observable<T> bind(Observable<T> observable) {
         Observable<T> boundObservable = AppObservable.bindFragment(this, observable);
         return LifecycleObservable.bindFragmentLifecycle(lifecycle(), boundObservable);
     }
