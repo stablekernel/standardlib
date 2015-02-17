@@ -3,6 +3,7 @@ package com.rosshambrick.standardlib;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -107,7 +108,10 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected void handleError(String message, Throwable e) {
-        ErrorHandler.handleError(getActivity(), message, e);
+        Log.e(getClass().getSimpleName(), e.getLocalizedMessage(), e);
+        if (isDebug() || message != null) {
+            Toast.makeText(getActivity(), message == null ? e.getLocalizedMessage() : message, Toast.LENGTH_LONG).show();
+        }
     }
 
     protected void dismissBlockingProgress() {
