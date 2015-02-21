@@ -32,7 +32,6 @@ public class SingleFragmentActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EcoNetApplication.inject(this);
         setContentView(R.layout.activity_single_fragment);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
