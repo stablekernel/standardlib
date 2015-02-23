@@ -14,7 +14,6 @@ import rx.Subscription;
 import rx.android.app.AppObservable;
 import rx.android.lifecycle.LifecycleEvent;
 import rx.android.lifecycle.LifecycleObservable;
-import rx.functions.Action0;
 import rx.subjects.BehaviorSubject;
 
 public abstract class RxFragment extends DialogFragment {
@@ -125,15 +124,26 @@ public abstract class RxFragment extends DialogFragment {
         return toolbar;
     }
 
-    protected <T> Subscription blockingSubscribe(Observable<T> observable, Observer<T> observer) {
+    protected <T> Subscription blockingSubscribe(Observable<T> observable, final Observer<T> observer) {
         Subscription subscription = bind(observable)
-                .finallyDo(new Action0() {
+                .subscribe(new Observer<T>() {
                     @Override
-                    public void call() {
-                        RxFragment.this.dismissBlockingProgress();
+                    public void onCompleted() {
+                        dismissBlockingProgress();
+                        observer.onCompleted();
                     }
-                })
-                .subscribe(observer);
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissBlockingProgress();
+                        observer.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(T t) {
+                        observer.onNext(t);
+                    }
+                });
         showBlockingProgress(subscription);
         return subscription;
     }
