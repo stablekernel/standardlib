@@ -20,6 +20,7 @@ public abstract class RxFragment extends DialogFragment {
 
     private BlockingProgressFragment blockingProgressFragment;
     private Toolbar toolbar;
+    private boolean traceLog;
 
     private final BehaviorSubject<LifecycleEvent> lifecycleSubject = BehaviorSubject.create();
 
@@ -29,22 +30,34 @@ public abstract class RxFragment extends DialogFragment {
 
     abstract protected boolean isDebug();
 
+    protected void enableTraceLog(boolean enable) {
+        traceLog = enable;
+    }
+
     @Override
     public void onAttach(android.app.Activity activity) {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onAttach()");
         super.onAttach(activity);
         lifecycleSubject.onNext(LifecycleEvent.ATTACH);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onCreate()");
         super.onCreate(savedInstanceState);
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-
         lifecycleSubject.onNext(LifecycleEvent.CREATE);
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onActivityCreated()");
+        super.onActivityCreated(savedInstanceState);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onViewCreated()");
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.inject(this, view);
         lifecycleSubject.onNext(LifecycleEvent.CREATE_VIEW);
@@ -52,44 +65,51 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onStart() {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onStart()");
         super.onStart();
         lifecycleSubject.onNext(LifecycleEvent.START);
     }
 
     @Override
     public void onResume() {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onResume()");
         super.onResume();
         lifecycleSubject.onNext(LifecycleEvent.RESUME);
     }
 
     @Override
     public void onPause() {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onPause()");
         lifecycleSubject.onNext(LifecycleEvent.PAUSE);
         super.onPause();
     }
 
     @Override
     public void onStop() {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onStop()");
         lifecycleSubject.onNext(LifecycleEvent.STOP);
         super.onStop();
     }
 
     @Override
     public void onDestroyView() {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onDestroyView()");
         lifecycleSubject.onNext(LifecycleEvent.DESTROY_VIEW);
         super.onDestroyView();
     }
 
     @Override
     public void onDetach() {
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onDetach()");
         lifecycleSubject.onNext(LifecycleEvent.DETACH);
         super.onDetach();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        if (traceLog) Log.d("TRACE", "--> RxFragment.onDetach()");
         lifecycleSubject.onNext(LifecycleEvent.DESTROY);
+        super.onDestroy();
     }
 
     protected void showBlockingProgress() {
@@ -121,6 +141,9 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     public Toolbar getToolbar() {
+        if (toolbar == null) {
+            throw new RuntimeException("Toolbar has not been set.  Make sure not to call getToolbar() until onViewCreated() at the earliest.");
+        }
         return toolbar;
     }
 
@@ -176,7 +199,7 @@ public abstract class RxFragment extends DialogFragment {
 
     protected void debugToast(int messageResId) {
         if (isDebug()) {
-            Toast.makeText(getActivity(), messageResId, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), messageResId, Toast.LENGTH_SHORT).show();
         }
     }
 
