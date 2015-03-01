@@ -3,7 +3,7 @@ package com.rosshambrick.standardlib;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import com.rosshambrick.standardlib.Log;
 import android.view.View;
 import android.widget.Toast;
 
