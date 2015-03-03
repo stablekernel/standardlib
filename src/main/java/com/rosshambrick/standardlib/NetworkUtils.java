@@ -17,13 +17,16 @@ import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 
 public class NetworkUtils {
-    public static boolean isConnected(Context context) {
+
+    public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return !(networkInfo == null || !networkInfo.isConnectedOrConnecting());
     }
 
     /**
+     * Stolen with love from: http://stackoverflow.com/a/20752580/289641
+     *
      * Checks whether the "Avoid poor networks" setting (named "Auto network switch" on
      * some Samsung devices) is enabled, which can in some instances interfere with Wi-Fi.
      *
