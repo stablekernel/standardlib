@@ -3,7 +3,6 @@ package com.rosshambrick.standardlib;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
-import com.rosshambrick.standardlib.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,22 +11,21 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.app.AppObservable;
-import rx.android.lifecycle.LifecycleEvent;
-import rx.android.lifecycle.LifecycleObservable;
 import rx.functions.Action0;
-import rx.subjects.BehaviorSubject;
 
+@SuppressWarnings("UnusedDeclaration")
 public abstract class RxFragment extends DialogFragment {
 
     private BlockingProgressFragment blockingProgressFragment;
     private Toolbar toolbar;
     private boolean traceLog;
 
-    private final BehaviorSubject<LifecycleEvent> lifecycleSubject = BehaviorSubject.create();
+// Disabling because this does not work with RxEspresso
+//    private final BehaviorSubject<LifecycleEvent> lifecycleSubject = BehaviorSubject.create();
 
-    private Observable<LifecycleEvent> lifecycle() {
-        return lifecycleSubject.asObservable();
-    }
+//    private Observable<LifecycleEvent> lifecycle() {
+//        return lifecycleSubject.asObservable();
+//    }
 
     abstract protected boolean isDebug();
 
@@ -37,79 +35,101 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onAttach(android.app.Activity activity) {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onAttach()");
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onAttach()");
+        }
         super.onAttach(activity);
-        lifecycleSubject.onNext(LifecycleEvent.ATTACH);
+//        lifecycleSubject.onNext(LifecycleEvent.ATTACH);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onCreate()");
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onCreate()");
+        }
         super.onCreate(savedInstanceState);
-        lifecycleSubject.onNext(LifecycleEvent.CREATE);
+//        lifecycleSubject.onNext(LifecycleEvent.CREATE);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onActivityCreated()");
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onActivityCreated()");
+        }
         super.onActivityCreated(savedInstanceState);
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onViewCreated()");
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onViewCreated()");
+        }
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.inject(this, view);
-        lifecycleSubject.onNext(LifecycleEvent.CREATE_VIEW);
+//        lifecycleSubject.onNext(LifecycleEvent.CREATE_VIEW);
     }
 
     @Override
     public void onStart() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onStart()");
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onStart()");
+        }
         super.onStart();
-        lifecycleSubject.onNext(LifecycleEvent.START);
+//        lifecycleSubject.onNext(LifecycleEvent.START);
     }
 
     @Override
     public void onResume() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onResume()");
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onResume()");
+        }
         super.onResume();
-        lifecycleSubject.onNext(LifecycleEvent.RESUME);
+//        lifecycleSubject.onNext(LifecycleEvent.RESUME);
     }
 
     @Override
     public void onPause() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onPause()");
-        lifecycleSubject.onNext(LifecycleEvent.PAUSE);
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onPause()");
+        }
+//        lifecycleSubject.onNext(LifecycleEvent.PAUSE);
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onStop()");
-        lifecycleSubject.onNext(LifecycleEvent.STOP);
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onStop()");
+        }
+//        lifecycleSubject.onNext(LifecycleEvent.STOP);
         super.onStop();
     }
 
     @Override
     public void onDestroyView() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onDestroyView()");
-        lifecycleSubject.onNext(LifecycleEvent.DESTROY_VIEW);
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onDestroyView()");
+        }
+//        lifecycleSubject.onNext(LifecycleEvent.DESTROY_VIEW);
         super.onDestroyView();
     }
 
     @Override
     public void onDetach() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onDetach()");
-        lifecycleSubject.onNext(LifecycleEvent.DETACH);
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onDetach()");
+        }
+//        lifecycleSubject.onNext(LifecycleEvent.DETACH);
         super.onDetach();
     }
 
     @Override
     public void onDestroy() {
-        if (traceLog) Log.d("TRACE", "--> RxFragment.onDetach()");
-        lifecycleSubject.onNext(LifecycleEvent.DESTROY);
+        if (traceLog) {
+            Log.d("TRACE", "--> RxFragment.onDetach()");
+        }
+//        lifecycleSubject.onNext(LifecycleEvent.DESTROY);
         super.onDestroy();
     }
 
@@ -167,16 +187,16 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected <T> Observable<T> bind(Observable<T> observable) {
-        Observable<T> boundObservable = AppObservable.bindFragment(this, observable);
-        return LifecycleObservable.bindFragmentLifecycle(lifecycle(), boundObservable);
+        return AppObservable.bindFragment(this, observable);
+//        return LifecycleObservable.bindFragmentLifecycle(lifecycle(), boundObservable);
     }
 
     protected void toast(int messageId) {
-        Toast.makeText(getActivity(), messageId, Toast.LENGTH_SHORT).show();
+        ToastUtil.show(getActivity(), messageId);
     }
 
     protected void toast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        ToastUtil.show(getActivity(), message);
     }
 
     protected int getColor(int colorRes) {
