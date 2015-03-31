@@ -18,7 +18,7 @@ public abstract class RxFragment extends DialogFragment {
 
     private BlockingProgressFragment blockingProgressFragment;
     private Toolbar toolbar;
-    private boolean traceLog;
+    private static boolean LOGGING;
 
 // Disabling because this does not work with RxEspresso
 //    private final BehaviorSubject<LifecycleEvent> lifecycleSubject = BehaviorSubject.create();
@@ -29,13 +29,13 @@ public abstract class RxFragment extends DialogFragment {
 
     abstract protected boolean isDebug();
 
-    protected void enableTraceLog(boolean enable) {
-        traceLog = enable;
+    public static void enableTraceLog(boolean enable) {
+        LOGGING = enable;
     }
 
     @Override
     public void onAttach(android.app.Activity activity) {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onAttach()");
         }
         super.onAttach(activity);
@@ -44,7 +44,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onCreate()");
         }
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onActivityCreated()");
         }
         super.onActivityCreated(savedInstanceState);
@@ -62,7 +62,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onViewCreated()");
         }
         super.onViewCreated(view, savedInstanceState);
@@ -72,7 +72,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onStart() {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onStart()");
         }
         super.onStart();
@@ -81,7 +81,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onResume() {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onResume()");
         }
         super.onResume();
@@ -90,7 +90,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onPause() {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onPause()");
         }
 //        lifecycleSubject.onNext(LifecycleEvent.PAUSE);
@@ -99,7 +99,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onStop() {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onStop()");
         }
 //        lifecycleSubject.onNext(LifecycleEvent.STOP);
@@ -108,7 +108,7 @@ public abstract class RxFragment extends DialogFragment {
 
     @Override
     public void onDestroyView() {
-        if (traceLog) {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onDestroyView()");
         }
 //        lifecycleSubject.onNext(LifecycleEvent.DESTROY_VIEW);
@@ -116,17 +116,17 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     @Override
-    public void onDetach() {
-        if (traceLog) {
-            Log.d("TRACE", "--> RxFragment.onDetach()");
+    public void onDestroy() {
+        if (LOGGING) {
+            Log.d("TRACE", "--> RxFragment.onDestroy()");
         }
 //        lifecycleSubject.onNext(LifecycleEvent.DETACH);
         super.onDetach();
     }
 
     @Override
-    public void onDestroy() {
-        if (traceLog) {
+    public void onDetach() {
+        if (LOGGING) {
             Log.d("TRACE", "--> RxFragment.onDetach()");
         }
 //        lifecycleSubject.onNext(LifecycleEvent.DESTROY);
