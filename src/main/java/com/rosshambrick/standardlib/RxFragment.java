@@ -168,13 +168,14 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected <T> Subscription blockingSubscribe(Observable<T> observable, final Observer<T> observer) {
-        Subscription subscription = bind(observable)
+        Subscription subscription = bind(observable
                 .doOnTerminate(new Action0() {
                     @Override
                     public void call() {
                         dismissBlockingProgress();
                     }
                 })
+        )
                 .subscribe(observer);
         showBlockingProgress(subscription);
         return subscription;

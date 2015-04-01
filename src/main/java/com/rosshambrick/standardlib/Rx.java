@@ -92,6 +92,7 @@ public final class Rx {
     }
 
     private static class SafeFragmentOperator<T> implements Observable.Operator<T, T> {
+        private static final String TAG = "SafeFragmentOperator";
         private Fragment fragment;
 
         public SafeFragmentOperator(Fragment fragment) {
@@ -107,6 +108,7 @@ public final class Rx {
                     if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
                         subscriber.onCompleted();
                     } else {
+                        Log.d(TAG, "Did not call onCompleted().  Fragment is in an invalid state");
                         unsubscribe();
                         fragment = null;
                     }

@@ -41,6 +41,7 @@ public class BlockingProgressFragment extends DialogFragment {
         super.onCancel(dialog);
         if (subscription != null) {
             subscription.unsubscribe();
+            subscription = null;
         }
     }
 
