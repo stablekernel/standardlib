@@ -10,7 +10,6 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.app.AppObservable;
 import rx.functions.Action0;
 
 @SuppressWarnings("UnusedDeclaration")
@@ -182,12 +181,11 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected <T> Subscription subscribe(Observable<T> observable, Observer<T> observer) {
-        Observable<T> boundObservable = bind(observable);
-        return boundObservable.subscribe(observer);
+        return bind(observable).subscribe(observer);
     }
 
     protected <T> Observable<T> bind(Observable<T> observable) {
-        return AppObservable.bindFragment(this, observable);
+        return observable.compose(Rx.<T>bind(this));
 //        return LifecycleObservable.bindFragmentLifecycle(lifecycle(), boundObservable);
     }
 

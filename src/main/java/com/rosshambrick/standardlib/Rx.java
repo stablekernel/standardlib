@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.annotations.Experimental;
 import rx.schedulers.Schedulers;
@@ -45,8 +46,8 @@ public final class Rx {
             public Observable<T> call(Observable<T> observable) {
                 return observable
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-                //TODO: add protection against invalid Fragment state
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .lift(new SafeFragmentOperator<T>(fragment));
             }
         };
     }
@@ -88,5 +89,49 @@ public final class Rx {
 
             }
         });
+    }
+
+    private static class SafeFragmentOperator<T> implements Observable.Operator<T, T> {
+        private Fragment fragment;
+
+        public SafeFragmentOperator(Fragment fragment) {
+            this.fragment = fragment;
+        }
+
+        @Override
+        public Subscriber<? super T> call(final Subscriber<? super T> subscriber) {
+
+            return new Subscriber<T>() {
+                @Override
+                public void onCompleted() {
+                    if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
+                        subscriber.onCompleted();
+                    } else {
+                        unsubscribe();
+                        fragment = null;
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
+                        subscriber.onError(e);
+                    } else {
+                        unsubscribe();
+                        fragment = null;
+                    }
+                }
+
+                @Override
+                public void onNext(T t) {
+                    if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
+                        subscriber.onNext(t);
+                    } else {
+                        unsubscribe();
+                        fragment = null;
+                    }
+                }
+            };
+        }
     }
 }
