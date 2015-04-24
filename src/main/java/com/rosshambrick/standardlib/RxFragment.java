@@ -1,12 +1,9 @@
 package com.rosshambrick.standardlib;
 
-import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -17,120 +14,8 @@ public abstract class RxFragment extends DialogFragment {
 
     private BlockingProgressFragment blockingProgressFragment;
     private Toolbar toolbar;
-    private static boolean LOGGING;
-
-// Disabling because this does not work with RxEspresso
-//    private final BehaviorSubject<LifecycleEvent> lifecycleSubject = BehaviorSubject.create();
-
-//    private Observable<LifecycleEvent> lifecycle() {
-//        return lifecycleSubject.asObservable();
-//    }
 
     abstract protected boolean isDebug();
-
-    public static void enableTraceLog(boolean enable) {
-        LOGGING = enable;
-    }
-
-    @Override
-    public void onAttach(android.app.Activity activity) {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onAttach()");
-        }
-        super.onAttach(activity);
-//        lifecycleSubject.onNext(LifecycleEvent.ATTACH);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onCreate()");
-        }
-        super.onCreate(savedInstanceState);
-//        lifecycleSubject.onNext(LifecycleEvent.CREATE);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onActivityCreated()");
-        }
-        super.onActivityCreated(savedInstanceState);
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onViewCreated()");
-        }
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.inject(this, view);
-//        lifecycleSubject.onNext(LifecycleEvent.CREATE_VIEW);
-    }
-
-    @Override
-    public void onStart() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onStart()");
-        }
-        super.onStart();
-//        lifecycleSubject.onNext(LifecycleEvent.START);
-    }
-
-    @Override
-    public void onResume() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onResume()");
-        }
-        super.onResume();
-//        lifecycleSubject.onNext(LifecycleEvent.RESUME);
-    }
-
-    @Override
-    public void onPause() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onPause()");
-        }
-//        lifecycleSubject.onNext(LifecycleEvent.PAUSE);
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onStop()");
-        }
-//        lifecycleSubject.onNext(LifecycleEvent.STOP);
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onDestroyView()");
-        }
-//        lifecycleSubject.onNext(LifecycleEvent.DESTROY_VIEW);
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onDestroy()");
-        }
-//        lifecycleSubject.onNext(LifecycleEvent.DETACH);
-        super.onDetach();
-    }
-
-    @Override
-    public void onDetach() {
-        if (LOGGING) {
-            Log.d("TRACE", "--> RxFragment.onDetach()");
-        }
-//        lifecycleSubject.onNext(LifecycleEvent.DESTROY);
-        super.onDestroy();
-    }
 
     protected void showBlockingProgress() {
         showBlockingProgress(null);
@@ -167,6 +52,7 @@ public abstract class RxFragment extends DialogFragment {
         return toolbar;
     }
 
+    //TODO: move this to a util class
     protected <T> Subscription blockingSubscribe(Observable<T> observable, final Observer<T> observer) {
         Subscription subscription = bind(observable
                 .doOnTerminate(new Action0() {
@@ -181,19 +67,23 @@ public abstract class RxFragment extends DialogFragment {
         return subscription;
     }
 
+    @Deprecated
     protected <T> Subscription subscribe(Observable<T> observable, Observer<T> observer) {
         return bind(observable).subscribe(observer);
     }
 
+    @Deprecated
     protected <T> Observable<T> bind(Observable<T> observable) {
         return observable.compose(Rx.<T>bind(this));
 //        return LifecycleObservable.bindFragmentLifecycle(lifecycle(), boundObservable);
     }
 
+    //TODO: move this to a util class
     protected void toast(int messageId) {
         ToastUtil.show(getActivity(), messageId);
     }
 
+    //TODO: move this to a util class
     protected void toast(String message) {
         ToastUtil.show(getActivity(), message);
     }
@@ -202,10 +92,12 @@ public abstract class RxFragment extends DialogFragment {
         return getResources().getColor(colorRes);
     }
 
+    //TODO: move this to a util class
     protected int getDimensionPixelOffset(int dpResource) {
         return getResources().getDimensionPixelOffset(dpResource);
     }
 
+    //TODO: move this to a util class
     protected void debugToast(int messageResId) {
         if (isDebug()) {
             Toast.makeText(getActivity(), messageResId, Toast.LENGTH_SHORT).show();
