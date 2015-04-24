@@ -1,5 +1,6 @@
 package com.rosshambrick.standardlib;
 
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -14,6 +15,12 @@ public abstract class RxFragment extends DialogFragment {
 
     private BlockingProgressFragment blockingProgressFragment;
     private Toolbar toolbar;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+    }
 
     abstract protected boolean isDebug();
 
