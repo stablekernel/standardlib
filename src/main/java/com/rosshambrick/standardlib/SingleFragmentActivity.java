@@ -36,6 +36,7 @@ public class SingleFragmentActivity extends ActionBarActivity {
      * @param fragment
      * @return
      */
+    @Deprecated
     public static Intent newIntent(Context context, Fragment fragment) {
         return newIntent(context, fragment.getClass(), fragment.getArguments());
     }
