@@ -19,48 +19,48 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class FloatLabelLayout  extends LinearLayout {
+public class FloatLabelLayout extends LinearLayout {
 
-private static final long ANIMATION_DURATION = 150;
+    private static final long ANIMATION_DURATION = 150;
 
-private static final float DEFAULT_LABEL_PADDING_LEFT = 3f;
-private static final float DEFAULT_LABEL_PADDING_TOP = 4f;
-private static final float DEFAULT_LABEL_PADDING_RIGHT = 3f;
-private static final float DEFAULT_LABEL_PADDING_BOTTOM = 4f;
+    private static final float DEFAULT_LABEL_PADDING_LEFT = 3f;
+    private static final float DEFAULT_LABEL_PADDING_TOP = 4f;
+    private static final float DEFAULT_LABEL_PADDING_RIGHT = 3f;
+    private static final float DEFAULT_LABEL_PADDING_BOTTOM = 4f;
 
-private EditText mEditText;
-private TextView mLabel;
+    private EditText mEditText;
+    private TextView mLabel;
 
-private CharSequence mHint;
-private Interpolator mInterpolator;
+    private CharSequence mHint;
+    private Interpolator mInterpolator;
 
-public FloatLabelLayout(Context context) {
+    public FloatLabelLayout(Context context) {
         this(context, null);
-        }
+    }
 
-public FloatLabelLayout(Context context, AttributeSet attrs) {
+    public FloatLabelLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-        }
+    }
 
-public FloatLabelLayout(Context context, AttributeSet attrs, int defStyle) {
+    public FloatLabelLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         setOrientation(VERTICAL);
 
-final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatLabelLayout);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatLabelLayout);
 
         int leftPadding = a.getDimensionPixelSize(
-        R.styleable.FloatLabelLayout_floatLabelPaddingLeft,
-        dipsToPix(DEFAULT_LABEL_PADDING_LEFT));
+                R.styleable.FloatLabelLayout_floatLabelPaddingLeft,
+                dipsToPix(DEFAULT_LABEL_PADDING_LEFT));
         int topPadding = a.getDimensionPixelSize(
-        R.styleable.FloatLabelLayout_floatLabelPaddingTop,
-        dipsToPix(DEFAULT_LABEL_PADDING_TOP));
+                R.styleable.FloatLabelLayout_floatLabelPaddingTop,
+                dipsToPix(DEFAULT_LABEL_PADDING_TOP));
         int rightPadding = a.getDimensionPixelSize(
-        R.styleable.FloatLabelLayout_floatLabelPaddingRight,
-        dipsToPix(DEFAULT_LABEL_PADDING_RIGHT));
+                R.styleable.FloatLabelLayout_floatLabelPaddingRight,
+                dipsToPix(DEFAULT_LABEL_PADDING_RIGHT));
         int bottomPadding = a.getDimensionPixelSize(
-        R.styleable.FloatLabelLayout_floatLabelPaddingBottom,
-        dipsToPix(DEFAULT_LABEL_PADDING_BOTTOM));
+                R.styleable.FloatLabelLayout_floatLabelPaddingBottom,
+                dipsToPix(DEFAULT_LABEL_PADDING_BOTTOM));
         mHint = a.getText(R.styleable.FloatLabelLayout_floatLabelHint);
 
         mLabel = new TextView(context);
@@ -71,32 +71,32 @@ final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatLabe
         ViewCompat.setPivotY(mLabel, 0f);
 
         mLabel.setTextAppearance(context,
-        a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
-        android.R.style.TextAppearance_Small));
+                a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
+                        android.R.style.TextAppearance_Small));
         a.recycle();
 
         addView(mLabel, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         mInterpolator = AnimationUtils.loadInterpolator(context,
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-        ? android.R.interpolator.fast_out_slow_in
-        : android.R.anim.decelerate_interpolator);
-        }
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                        ? android.R.interpolator.fast_out_slow_in
+                        : android.R.anim.decelerate_interpolator);
+    }
 
-@Override
-public final void addView(View child, int index, ViewGroup.LayoutParams params) {
+    @Override
+    public final void addView(View child, int index, ViewGroup.LayoutParams params) {
         if (child instanceof EditText) {
-        setEditText((EditText) child);
+            setEditText((EditText) child);
         }
 
         // Carry on adding the View...
         super.addView(child, index, params);
-        }
+    }
 
-private void setEditText(EditText editText) {
+    private void setEditText(EditText editText) {
         // If we already have an EditText, throw an exception
         if (mEditText != null) {
-        throw new IllegalArgumentException("We already have an EditText, can only have one");
+            throw new IllegalArgumentException("We already have an EditText, can only have one");
         }
         mEditText = editText;
 
@@ -105,134 +105,136 @@ private void setEditText(EditText editText) {
 
         // Add a TextWatcher so that we know when the text input has changed
         mEditText.addTextChangedListener(new TextWatcher() {
-@Override
-public void afterTextChanged(Editable s) {
-        updateLabelVisibility(true);
-        }
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateLabelVisibility(true);
+            }
 
-@Override
-public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-@Override
-public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         // Add focus listener to the EditText so that we can notify the label that it is activated.
         // Allows the use of a ColorStateList for the text color on the label
         mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-@Override
-public void onFocusChange(View view, boolean focused) {
-        updateLabelVisibility(true);
-        }
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                updateLabelVisibility(true);
+            }
         });
 
         // If we do not have a valid hint, try and retrieve it from the EditText
         if (TextUtils.isEmpty(mHint)) {
-        setHint(mEditText.getHint());
+            setHint(mEditText.getHint());
         }
-        }
+    }
 
-private void updateLabelVisibility(boolean animate) {
+    private void updateLabelVisibility(boolean animate) {
         boolean hasText = !TextUtils.isEmpty(mEditText.getText());
         boolean isFocused = mEditText.isFocused();
 
         mLabel.setActivated(isFocused);
 
         if (hasText || isFocused) {
-        // We should be showing the label so do so if it isn't already
-        if (mLabel.getVisibility() != VISIBLE) {
-        showLabel(animate);
-        }
+            // We should be showing the label so do so if it isn't already
+            if (mLabel.getVisibility() != VISIBLE) {
+                showLabel(animate);
+            }
         } else {
-        // We should not be showing the label so hide it
-        if (mLabel.getVisibility() == VISIBLE) {
-        hideLabel(animate);
+            // We should not be showing the label so hide it
+            if (mLabel.getVisibility() == VISIBLE) {
+                hideLabel(animate);
+            }
         }
-        }
-        }
+    }
 
-/**
- * @return the {@link android.widget.EditText} text input
- */
-public EditText getEditText() {
+    /**
+     * @return the {@link android.widget.EditText} text input
+     */
+    public EditText getEditText() {
         return mEditText;
-        }
+    }
 
-/**
- * @return the {@link android.widget.TextView} label
- */
-public TextView getLabel() {
+    /**
+     * @return the {@link android.widget.TextView} label
+     */
+    public TextView getLabel() {
         return mLabel;
-        }
+    }
 
-/**
- * Set the hint to be displayed in the floating label
- */
-public void setHint(CharSequence hint) {
+    /**
+     * Set the hint to be displayed in the floating label
+     */
+    public void setHint(CharSequence hint) {
         mHint = hint;
         mLabel.setText(hint);
-        }
+    }
 
-/**
- * Show the label
- */
-private void showLabel(boolean animate) {
+    /**
+     * Show the label
+     */
+    private void showLabel(boolean animate) {
         if (animate) {
-        mLabel.setVisibility(View.VISIBLE);
-        ViewCompat.setTranslationY(mLabel, mLabel.getHeight());
+            mLabel.setVisibility(View.VISIBLE);
+            ViewCompat.setTranslationY(mLabel, mLabel.getHeight());
 
-        float scale = mEditText.getTextSize() / mLabel.getTextSize();
-        ViewCompat.setScaleX(mLabel, scale);
-        ViewCompat.setScaleY(mLabel, scale);
+            float scale = mEditText.getTextSize() / mLabel.getTextSize();
+            ViewCompat.setScaleX(mLabel, scale);
+            ViewCompat.setScaleY(mLabel, scale);
 
-        ViewCompat.animate(mLabel)
-        .translationY(0f)
-        .scaleY(1f)
-        .scaleX(1f)
-        .setDuration(ANIMATION_DURATION)
-        .setListener(null)
-        .setInterpolator(mInterpolator).start();
+            ViewCompat.animate(mLabel)
+                    .translationY(0f)
+                    .scaleY(1f)
+                    .scaleX(1f)
+                    .setDuration(ANIMATION_DURATION)
+                    .setListener(null)
+                    .setInterpolator(mInterpolator).start();
         } else {
-        mLabel.setVisibility(VISIBLE);
+            mLabel.setVisibility(VISIBLE);
         }
 
         mEditText.setHint(null);
-        }
+    }
 
-/**
- * Hide the label
- */
-private void hideLabel(boolean animate) {
+    /**
+     * Hide the label
+     */
+    private void hideLabel(boolean animate) {
         if (animate) {
-        float scale = mEditText.getTextSize() / mLabel.getTextSize();
-        ViewCompat.setScaleX(mLabel, 1f);
-        ViewCompat.setScaleY(mLabel, 1f);
-        ViewCompat.setTranslationY(mLabel, 0f);
+            float scale = mEditText.getTextSize() / mLabel.getTextSize();
+            ViewCompat.setScaleX(mLabel, 1f);
+            ViewCompat.setScaleY(mLabel, 1f);
+            ViewCompat.setTranslationY(mLabel, 0f);
 
-        ViewCompat.animate(mLabel)
-        .translationY(mLabel.getHeight())
-        .setDuration(ANIMATION_DURATION)
-        .scaleX(scale)
-        .scaleY(scale)
-        .setListener(new ViewPropertyAnimatorListenerAdapter() {
-@Override
-public void onAnimationEnd(View view) {
-        mLabel.setVisibility(INVISIBLE);
-        mEditText.setHint(mHint);
-        }
-        })
-        .setInterpolator(mInterpolator).start();
+            ViewCompat.animate(mLabel)
+                    .translationY(mLabel.getHeight())
+                    .setDuration(ANIMATION_DURATION)
+                    .scaleX(scale)
+                    .scaleY(scale)
+                    .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(View view) {
+                            mLabel.setVisibility(INVISIBLE);
+                            mEditText.setHint(mHint);
+                        }
+                    })
+                    .setInterpolator(mInterpolator).start();
         } else {
-        mLabel.setVisibility(INVISIBLE);
-        mEditText.setHint(mHint);
+            mLabel.setVisibility(INVISIBLE);
+            mEditText.setHint(mHint);
         }
-        }
+    }
 
-/**
- * Helper method to convert dips to pixels.
- */
-private int dipsToPix(float dps) {
+    /**
+     * Helper method to convert dips to pixels.
+     */
+    private int dipsToPix(float dps) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps,
-        getResources().getDisplayMetrics());
-        }
- }
+                getResources().getDisplayMetrics());
+    }
+}
