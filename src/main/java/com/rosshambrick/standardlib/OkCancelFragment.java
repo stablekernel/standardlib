@@ -47,6 +47,10 @@ public class OkCancelFragment extends DialogFragment {
         return newInstance(title, message, -1);
     }
 
+    public static OkCancelFragment newInstance(int titleId, int messageId) {
+        return newInstance(titleId, messageId, -1);
+    }
+
     public static OkCancelFragment newInstance(String title, String message, int id) {
         OkCancelFragment fragment = new OkCancelFragment();
         Bundle args = new Bundle();
