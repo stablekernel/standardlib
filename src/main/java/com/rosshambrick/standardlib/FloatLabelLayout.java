@@ -77,10 +77,12 @@ public class FloatLabelLayout extends LinearLayout {
 
         addView(mLabel, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
-        mInterpolator = AnimationUtils.loadInterpolator(context,
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                        ? android.R.interpolator.fast_out_slow_in
-                        : android.R.anim.decelerate_interpolator);
+        if (!isInEditMode()) {
+            mInterpolator = AnimationUtils.loadInterpolator(context,
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                            ? android.R.interpolator.fast_out_slow_in
+                            : android.R.anim.decelerate_interpolator);
+        }
     }
 
     @Override
