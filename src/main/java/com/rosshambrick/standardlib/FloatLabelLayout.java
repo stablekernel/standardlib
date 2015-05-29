@@ -136,6 +136,12 @@ public class FloatLabelLayout extends LinearLayout {
         }
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        mEditText.setEnabled(enabled);
+        super.setEnabled(enabled);
+    }
+
     private void updateLabelVisibility(boolean animate) {
         boolean hasText = !TextUtils.isEmpty(mEditText.getText());
         boolean isFocused = mEditText.isFocused();
