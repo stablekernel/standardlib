@@ -109,7 +109,7 @@ public class FloatLabelLayout extends LinearLayout {
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                updateLabelVisibility(true);
+                updateLabelVisibility(false);
             }
 
             @Override
