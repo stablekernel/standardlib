@@ -39,6 +39,8 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected void handleError(String message, Throwable e) {
+        dismissBlockingProgress();
+
         Log.e(getClass().getSimpleName(), e.getLocalizedMessage(), e);
         if (isDebug() || message != null) {
             Toast.makeText(getActivity(), message == null ? e.getLocalizedMessage() : message, Toast.LENGTH_LONG).show();
@@ -119,4 +121,7 @@ public abstract class RxFragment extends DialogFragment {
         handleError(e);
     }
 
+    public void noop(Object o) {
+
+    }
 }
