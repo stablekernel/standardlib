@@ -61,7 +61,7 @@ public abstract class RxFragment extends DialogFragment {
         return toolbar;
     }
 
-    //TODO: move this to a util class
+    @Deprecated
     protected <T> Subscription blockingSubscribe(Observable<T> observable, final Observer<T> observer) {
         Subscription subscription = bind(observable
                 .doOnTerminate(new Action0() {
@@ -88,25 +88,30 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     //TODO: move this to a util class
+    @Deprecated
     protected void toast(int messageId) {
         ToastUtil.show(getActivity(), messageId);
     }
 
     //TODO: move this to a util class
+    @Deprecated
     protected void toast(String message) {
         ToastUtil.show(getActivity(), message);
     }
 
+    @Deprecated
     protected int getColor(int colorRes) {
         return getResources().getColor(colorRes);
     }
 
     //TODO: move this to a util class
+    @Deprecated
     protected int getDimensionPixelOffset(int dpResource) {
         return getResources().getDimensionPixelOffset(dpResource);
     }
 
     //TODO: move this to a util class
+    @Deprecated
     protected void debugToast(int messageResId) {
         if (isDebug()) {
             Toast.makeText(getActivity(), messageResId, Toast.LENGTH_SHORT).show();
