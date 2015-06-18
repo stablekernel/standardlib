@@ -38,12 +38,19 @@ public abstract class RxFragment extends DialogFragment {
         handleError(null, e);
     }
 
-    protected void handleError(String message, Throwable e) {
+    protected void handleError(final String message, final Throwable e) {
         dismissBlockingProgress();
 
         Log.e(getClass().getSimpleName(), e.getLocalizedMessage(), e);
         if (isDebug() || message != null) {
-            Toast.makeText(getActivity(), message == null ? e.getLocalizedMessage() : message, Toast.LENGTH_LONG).show();
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), message == null ? e.getLocalizedMessage() : message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
     }
 
