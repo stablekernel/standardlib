@@ -1,4 +1,4 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
@@ -13,8 +13,9 @@ import android.provider.Settings;
 
 import java.lang.reflect.Field;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
 public class NetworkUtils {
 
@@ -26,7 +27,7 @@ public class NetworkUtils {
 
     /**
      * Stolen with love from: http://stackoverflow.com/a/20752580/289641
-     *
+     * <p>
      * Checks whether the "Avoid poor networks" setting (named "Auto network switch" on
      * some Samsung devices) is enabled, which can in some instances interfere with Wi-Fi.
      *
@@ -92,7 +93,7 @@ public class NetworkUtils {
         }
     }
 
-    public static boolean activityExists (Context context, Intent intent) {
+    public static boolean activityExists(Context context, Intent intent) {
         final PackageManager mgr = context.getPackageManager();
         final ResolveInfo info = mgr.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return (info != null);

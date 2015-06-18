@@ -1,4 +1,4 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -71,12 +71,12 @@ public abstract class RxFragment extends DialogFragment {
     @Deprecated
     protected <T> Subscription blockingSubscribe(Observable<T> observable, final Observer<T> observer) {
         Subscription subscription = bind(observable
-                .doOnTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        dismissBlockingProgress();
-                    }
-                })
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                dismissBlockingProgress();
+                            }
+                        })
         )
                 .subscribe(observer);
         showBlockingProgress(subscription);
