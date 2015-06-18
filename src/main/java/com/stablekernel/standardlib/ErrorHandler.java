@@ -1,7 +1,6 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 import android.content.Context;
-import com.rosshambrick.standardlib.Log;
 import android.widget.Toast;
 
 public class ErrorHandler {

@@ -1,4 +1,4 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 import android.app.Activity;
 import android.app.Dialog;

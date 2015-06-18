@@ -1,4 +1,4 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 import android.app.Activity;
 import android.app.Application;
@@ -13,7 +13,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * WIP
- *
+ * <p>
  * A composable version of RxJava helpers to avoid the need to subclass from a
  * base RxFragment etc.
  */

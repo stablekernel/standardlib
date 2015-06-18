@@ -1,4 +1,4 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 import android.content.Context;
 import android.widget.Toast;

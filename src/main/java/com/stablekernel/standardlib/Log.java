@@ -1,4 +1,4 @@
-package com.rosshambrick.standardlib;
+package com.stablekernel.standardlib;
 
 /**
  * This Log class is a proxy to the standard android.util.Log except
@@ -11,8 +11,8 @@ public class Log {
      * Since gradle does not support passing the BuildConfig.DEBUG value
      * down to library modules, you will need to call this this method in
      * your Application.onCreate() method like so:
-     *
-     *      Log.setDebug(BuildConfig.DEBUG);
+     * <p>
+     * Log.setDebug(BuildConfig.DEBUG);
      *
      * @param isDebug
      */
