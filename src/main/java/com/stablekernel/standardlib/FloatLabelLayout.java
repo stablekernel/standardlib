@@ -2,6 +2,7 @@ package com.stablekernel.standardlib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
@@ -101,6 +102,8 @@ public class FloatLabelLayout extends LinearLayout {
             throw new IllegalArgumentException("We already have an EditText, can only have one");
         }
         mEditText = editText;
+        int padding = (int) DisplayUtils.dpFromPixels(getContext(), 4);
+        mEditText.setPadding(mEditText.getPaddingLeft(),padding,mEditText.getPaddingRight(),mEditText.getPaddingBottom());
 
         // Update the label visibility with no animation
         updateLabelVisibility(false);
