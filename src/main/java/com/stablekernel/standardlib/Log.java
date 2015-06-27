@@ -31,4 +31,8 @@ public class Log {
     public static void w(String tag, String msg) {
         android.util.Log.w(tag, msg);
     }
+
+    public static void d(String tag, String msg, Throwable throwable) {
+        android.util.Log.d(tag, msg, throwable);
+    }
 }
