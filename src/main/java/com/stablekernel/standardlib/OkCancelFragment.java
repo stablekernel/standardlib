@@ -24,6 +24,7 @@ public class OkCancelFragment extends DialogFragment {
     private String message;
     private int entityId;
     private int messageId;
+    private int titleId;
 
     public static OkCancelFragment newInstance(int messageId) {
         OkCancelFragment fragment = new OkCancelFragment();
@@ -64,11 +65,12 @@ public class OkCancelFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments().containsKey(ARGS_TITLE)) {
+
+        titleId = getArguments().getInt(ARGS_TITLE_ID, -1);
+        if (titleId == -1) {
             title = getArguments().getString(ARGS_TITLE);
-        } else {
-            title = getArguments().getString(ARGS_TITLE_ID);
         }
+
         messageId = getArguments().getInt(ARGS_MESSAGE_ID, -1);
         if (messageId == -1) {
             message = getArguments().getString(ARGS_MESSAGE);
@@ -93,8 +95,10 @@ public class OkCancelFragment extends DialogFragment {
 
         if (messageId != -1) {
             builder.setMessage(messageId);
+            builder.setTitle(titleId);
         } else if (message != null) {
             builder.setMessage(message);
+            builder.setTitle(title);
         }
 
         return builder.create();
