@@ -43,19 +43,6 @@ public class OkCancelFragment extends DialogFragment {
         return fragment;
     }
 
-    public static OkCancelFragment newInstance(String titleId, String messageId) {
-        OkCancelFragment fragment = new OkCancelFragment();
-        Bundle args = new Bundle();
-        args.putString(ARGS_TITLE_ID, titleId);
-        args.putString(ARGS_MESSAGE_ID, messageId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static OkCancelFragment newInstance(int titleId, int messageId) {
-        return newInstance(titleId, messageId, -1);
-    }
-
     public static OkCancelFragment newInstance(String title, String message, int id) {
         OkCancelFragment fragment = new OkCancelFragment();
         Bundle args = new Bundle();
@@ -66,10 +53,22 @@ public class OkCancelFragment extends DialogFragment {
         return fragment;
     }
 
+    public static OkCancelFragment newInstance(String title, String message) {
+        return newInstance(title, message, -1);
+    }
+
+    public static OkCancelFragment newInstance(int titleId, int messageId) {
+        return newInstance(titleId, messageId, -1);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        title = getArguments().getString(ARGS_TITLE);
+        if(getArguments().containsKey(ARGS_TITLE)) {
+            title = getArguments().getString(ARGS_TITLE);
+        } else {
+            title = getArguments().getString(ARGS_TITLE_ID);
+        }
         messageId = getArguments().getInt(ARGS_MESSAGE_ID, -1);
         if (messageId == -1) {
             message = getArguments().getString(ARGS_MESSAGE);
