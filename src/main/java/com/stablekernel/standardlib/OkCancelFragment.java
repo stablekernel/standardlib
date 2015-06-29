@@ -43,8 +43,13 @@ public class OkCancelFragment extends DialogFragment {
         return fragment;
     }
 
-    public static OkCancelFragment newInstance(String title, String message) {
-        return newInstance(title, message, -1);
+    public static OkCancelFragment newInstance(String titleId, String messageId) {
+        OkCancelFragment fragment = new OkCancelFragment();
+        Bundle args = new Bundle();
+        args.putString(ARGS_TITLE_ID, titleId);
+        args.putString(ARGS_MESSAGE_ID, messageId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public static OkCancelFragment newInstance(int titleId, int messageId) {
