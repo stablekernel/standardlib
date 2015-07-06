@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -28,6 +29,7 @@ public class FloatLabelLayout extends LinearLayout {
     private static final float DEFAULT_LABEL_PADDING_TOP = 4f;
     private static final float DEFAULT_LABEL_PADDING_RIGHT = 3f;
     private static final float DEFAULT_LABEL_PADDING_BOTTOM = 4f;
+    public static final int DEFAULT_LABEL_TEXT_SIZE = 12;
 
     private EditText mEditText;
     private TextView mLabel;
@@ -62,18 +64,25 @@ public class FloatLabelLayout extends LinearLayout {
         int bottomPadding = a.getDimensionPixelSize(
                 R.styleable.FloatLabelLayout_floatLabelPaddingBottom,
                 dipsToPix(DEFAULT_LABEL_PADDING_BOTTOM));
+        int textSize = a.getDimensionPixelSize(
+                R.styleable.FloatLabelLayout_floatLabelTextSize,
+                dipsToPix(DEFAULT_LABEL_TEXT_SIZE));
+        int textColor = a.getColor(
+                R.styleable.FloatLabelLayout_floatLabelTextColor,
+                Color.BLACK);
+
         mHint = a.getText(R.styleable.FloatLabelLayout_floatLabelHint);
 
-        mLabel = new TextView(context);
+        mLabel = (TextView) LayoutInflater.from(context).inflate(R.layout.text_view, this, false);
         mLabel.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
         mLabel.setVisibility(INVISIBLE);
         mLabel.setText(mHint);
+        mLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        mLabel.setTextColor(textColor);
+
         ViewCompat.setPivotX(mLabel, 0f);
         ViewCompat.setPivotY(mLabel, 0f);
 
-        mLabel.setTextAppearance(context,
-                a.getResourceId(R.styleable.FloatLabelLayout_floatLabelTextAppearance,
-                        android.R.style.TextAppearance_Small));
         a.recycle();
 
         addView(mLabel, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
