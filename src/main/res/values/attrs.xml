@@ -2,7 +2,8 @@
 <resources>
 
     <declare-styleable name="FloatLabelLayout">
-        <attr name="floatLabelTextAppearance" format="reference"/>
+        <attr name="floatLabelTextSize" format="reference|dimension"/>
+        <attr name="floatLabelTextColor" format="reference|color"/>
         <attr name="floatLabelPaddingLeft" format="reference|dimension"/>
         <attr name="floatLabelPaddingRight" format="reference|dimension"/>
         <attr name="floatLabelPaddingTop" format="reference|dimension"/>
