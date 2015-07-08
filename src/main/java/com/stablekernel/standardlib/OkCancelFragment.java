@@ -94,9 +94,12 @@ public class OkCancelFragment extends DialogFragment {
 
         if (messageId != -1) {
             builder.setMessage(messageId);
-            builder.setTitle(titleId);
         } else if (message != null) {
             builder.setMessage(message);
+        }
+        if (titleId != -1) {
+            builder.setTitle(titleId);
+        } else if (message != null) {
             builder.setTitle(title);
         }
 
