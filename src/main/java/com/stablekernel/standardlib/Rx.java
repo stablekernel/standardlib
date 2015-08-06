@@ -105,7 +105,7 @@ public final class Rx {
             return new Subscriber<T>() {
                 @Override
                 public void onCompleted() {
-                    if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
+                    if (fragment != null && fragment.isAdded() && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                         subscriber.onCompleted();
                     } else {
                         Log.d(TAG, "Did not call onCompleted().  Fragment is in an invalid state");
@@ -116,7 +116,7 @@ public final class Rx {
 
                 @Override
                 public void onError(Throwable e) {
-                    if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
+                    if (fragment != null && fragment.isAdded() && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                         subscriber.onError(e);
                     } else {
                         unsubscribe();
@@ -126,7 +126,7 @@ public final class Rx {
 
                 @Override
                 public void onNext(T t) {
-                    if (fragment != null && fragment.isAdded() && !fragment.getActivity().isFinishing()) {
+                    if (fragment != null && fragment.isAdded() && fragment.getActivity() != null && !fragment.getActivity().isFinishing()) {
                         subscriber.onNext(t);
                     } else {
                         unsubscribe();
