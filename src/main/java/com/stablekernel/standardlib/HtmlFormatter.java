@@ -8,7 +8,10 @@ import org.xml.sax.XMLReader;
 
 public class HtmlFormatter {
 
-    public static Spanned format(String html) {
+    public static Spanned format(String html, Boolean withImages) {
+        if (!withImages) {
+            html = html.replaceAll("<img.+?>", "");
+        }
         return Html.fromHtml(html, null, new Html.TagHandler() {
             @Override
             public void handleTag(boolean opening,
