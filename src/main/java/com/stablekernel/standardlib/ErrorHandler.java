@@ -12,7 +12,7 @@ public class ErrorHandler {
     public static void handleError(Context context, String message, Throwable e) {
         Log.e(context.getClass().getSimpleName(), e.getLocalizedMessage(), e);
         if (BuildConfig.DEBUG || message != null) {
-           Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, message == null ? e.getLocalizedMessage() : message, Toast.LENGTH_LONG).show();
         }
     }
 }
