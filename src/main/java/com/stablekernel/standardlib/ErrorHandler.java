@@ -1,6 +1,7 @@
 package com.stablekernel.standardlib;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 public class ErrorHandler {
@@ -8,10 +9,10 @@ public class ErrorHandler {
         ErrorHandler.handleError(context, e.getLocalizedMessage(), e);
     }
 
-    public static void handleError(Context context, String message, Throwable e) {
+    public static void handleError(Context context, @NonNull String message, Throwable e) {
         Log.e(context.getClass().getSimpleName(), e.getLocalizedMessage(), e);
-        if (BuildConfig.DEBUG || message != null) {
-            Toast.makeText(context, message == null ? e.getLocalizedMessage() : message, Toast.LENGTH_LONG).show();
+        if (BuildConfig.DEBUG ) {
+           Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         }
     }
 }
