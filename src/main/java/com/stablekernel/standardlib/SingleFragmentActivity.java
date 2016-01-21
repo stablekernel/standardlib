@@ -26,8 +26,8 @@ public class SingleFragmentActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, getFragment())
-                    .commit();
+                                       .replace(R.id.fragment_container, getFragment())
+                                       .commit();
         }
         if (traceLog) Log.d("TRACE", "<-- SingleFragmentActivity.onCreate()");
     }
@@ -44,8 +44,13 @@ public class SingleFragmentActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (null != currentFragment && currentFragment.onOptionsItemSelected(item)) {
+                return true;
+            } else {
+                finish();
+                return true;
+            }
         } else {
             return super.onOptionsItemSelected(item);
         }

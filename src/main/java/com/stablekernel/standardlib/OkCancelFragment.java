@@ -24,6 +24,7 @@ public class OkCancelFragment extends DialogFragment {
     private String message;
     private int entityId;
     private int messageId;
+    private int titleId;
 
     public static OkCancelFragment newInstance(int messageId) {
         OkCancelFragment fragment = new OkCancelFragment();
@@ -43,14 +44,6 @@ public class OkCancelFragment extends DialogFragment {
         return fragment;
     }
 
-    public static OkCancelFragment newInstance(String title, String message) {
-        return newInstance(title, message, -1);
-    }
-
-    public static OkCancelFragment newInstance(int titleId, int messageId) {
-        return newInstance(titleId, messageId, -1);
-    }
-
     public static OkCancelFragment newInstance(String title, String message, int id) {
         OkCancelFragment fragment = new OkCancelFragment();
         Bundle args = new Bundle();
@@ -61,10 +54,23 @@ public class OkCancelFragment extends DialogFragment {
         return fragment;
     }
 
+    public static OkCancelFragment newInstance(String title, String message) {
+        return newInstance(title, message, -1);
+    }
+
+    public static OkCancelFragment newInstance(int titleId, int messageId) {
+        return newInstance(titleId, messageId, -1);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        title = getArguments().getString(ARGS_TITLE);
+
+        titleId = getArguments().getInt(ARGS_TITLE_ID, -1);
+        if (titleId == -1) {
+            title = getArguments().getString(ARGS_TITLE);
+        }
+
         messageId = getArguments().getInt(ARGS_MESSAGE_ID, -1);
         if (messageId == -1) {
             message = getArguments().getString(ARGS_MESSAGE);
@@ -76,7 +82,6 @@ public class OkCancelFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(title)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -91,6 +96,11 @@ public class OkCancelFragment extends DialogFragment {
             builder.setMessage(messageId);
         } else if (message != null) {
             builder.setMessage(message);
+        }
+        if (titleId != -1) {
+            builder.setTitle(titleId);
+        } else if (message != null) {
+            builder.setTitle(title);
         }
 
         return builder.create();
