@@ -11,7 +11,6 @@ public class AuthRetryInterceptor implements Interceptor {
     private static final String TAG = "AuthRetryInterceptor";
     private final Object lockObject = new Object();
 
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         String token = getAccessToken();
@@ -30,17 +29,21 @@ public class AuthRetryInterceptor implements Interceptor {
 
     private Response performRefresh(Chain chain, Request.Builder builder) throws IOException {
         try {
-            refreshAccessToken();
-            return chain.proceed(builder.build());
+            IOException exception = refreshAccessToken();
+            Response response = chain.proceed(builder.build());
+            if (response.code() < 200 || response.code() >= 300) {
+                throw exception;
+            }
+            return response;
         } catch (IOException e) {
-            performRefreshFailure();
+            performRefreshFailure(e);
             throw e;
         }
     }
 
-    public String getAccessToken(){ return  ""; }
+    public String getAccessToken(){ return  null; }
 
-    public void refreshAccessToken() {}
+    public IOException refreshAccessToken() { return null; }
 
-    public void performRefreshFailure() {}
+    public void performRefreshFailure(IOException e) {}
 }
