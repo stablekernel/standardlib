@@ -9,8 +9,8 @@ import java.text.SimpleDateFormat;
 
 public class DefaultObjectMapper extends ObjectMapper {
 
-    public DefaultObjectMapper() {
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, BuildConfig.DEBUG);
+    public DefaultObjectMapper(boolean isDebug) {
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, isDebug);
         setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.DEFAULT);
         setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
