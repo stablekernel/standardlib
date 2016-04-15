@@ -6,7 +6,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class AuthRetryInterceptor implements Interceptor {
+public abstract class AuthRetryInterceptor implements Interceptor {
 
     private static final String TAG = "AuthRetryInterceptor";
     private final Object lockObject = new Object();
@@ -41,9 +41,9 @@ public class AuthRetryInterceptor implements Interceptor {
         }
     }
 
-    public String getAccessToken(){ return  null; }
+    public abstract String getAccessToken();
 
-    public IOException refreshAccessToken() { return null; }
+    public abstract IOException refreshAccessToken();
 
-    public void performRefreshFailure(IOException e) {}
+    public abstract void performRefreshFailure(IOException e);
 }
