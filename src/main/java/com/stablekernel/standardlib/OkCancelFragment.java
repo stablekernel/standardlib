@@ -90,7 +90,13 @@ public class OkCancelFragment extends DialogFragment {
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, data);
                     }
                 })
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
+                    }
+                });
+
 
         if (messageId != -1) {
             builder.setMessage(messageId);
