@@ -49,4 +49,8 @@ public class BlockingProgressFragment extends DialogFragment {
     public void setOnCancelListener(Subscription subscription) {
         this.subscription = subscription;
     }
+
+    public void setIsCancelable(boolean isCancelable) {
+        setCancelable(isCancelable);
+    }
 }
