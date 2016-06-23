@@ -16,10 +16,20 @@ import rx.Subscription;
 
 public class BlockingProgressFragment extends DialogFragment {
     public static final String TAG = BlockingProgressFragment.class.getSimpleName();
+    private static final String ARGS_IS_CANCELABLE = "ARGS_IS_CANCELABLE";
     private Subscription subscription;
+    private boolean isCancelable;
 
     public static BlockingProgressFragment newInstance() {
         return new BlockingProgressFragment();
+    }
+
+    public static BlockingProgressFragment newInstance(boolean isCancelable) {
+        BlockingProgressFragment blockingProgressFragment = new BlockingProgressFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGS_IS_CANCELABLE, isCancelable);
+        blockingProgressFragment.setArguments(args);
+        return blockingProgressFragment;
     }
 
     @NonNull
@@ -28,7 +38,9 @@ public class BlockingProgressFragment extends DialogFragment {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        setCancelable(false);
+        if(getArguments() != null) {
+            setCancelable(getArguments().getBoolean(ARGS_IS_CANCELABLE));
+        }
         return dialog;
     }
 
@@ -48,9 +60,5 @@ public class BlockingProgressFragment extends DialogFragment {
 
     public void setOnCancelListener(Subscription subscription) {
         this.subscription = subscription;
-    }
-
-    public void setIsCancelable(boolean isCancelable) {
-        setCancelable(isCancelable);
     }
 }
