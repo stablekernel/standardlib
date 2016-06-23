@@ -29,8 +29,9 @@ public abstract class RxFragment extends DialogFragment {
     }
 
     protected void showBlockingProgress(boolean isCancelable) {
-        blockingProgressFragment = BlockingProgressFragment.newInstance(isCancelable);
+        blockingProgressFragment = BlockingProgressFragment.newInstance();
         blockingProgressFragment.show(getFragmentManager(), BlockingProgressFragment.TAG);
+        blockingProgressFragment.setIsCancelable(isCancelable);
     }
 
     protected void showBlockingProgress(Subscription subscription) {
