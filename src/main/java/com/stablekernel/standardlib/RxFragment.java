@@ -25,7 +25,7 @@ public abstract class RxFragment extends DialogFragment {
     abstract protected boolean isDebug();
 
     protected void showBlockingProgress() {
-        showBlockingProgress(null);
+        showBlockingProgress(false);
     }
 
     protected void showBlockingProgress(boolean isCancelable) {
