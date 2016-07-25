@@ -6,6 +6,8 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
+import retrofit.RetrofitError;
+
 public abstract class AuthRetryInterceptor implements Interceptor {
 
     private static final String TAG = "AuthRetryInterceptor";
@@ -15,7 +17,16 @@ public abstract class AuthRetryInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String token = getAccessToken();
         Request.Builder builder = chain.request().newBuilder();
-        Response response = chain.proceed(builder.build());
+
+        Response response;
+        try {
+            response = chain.proceed(builder.build());
+        } catch (IOException e) {
+            throw RetrofitError.networkError(e.getLocalizedMessage(), e);
+        } catch (Throwable e) {
+            throw RetrofitError.unexpectedError(e.getLocalizedMessage(), e);
+        }
+
         if (response.code() == 401) {
             synchronized (lockObject) {
                 String currentToken = getAccessToken();
