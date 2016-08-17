@@ -52,9 +52,9 @@ public abstract class AuthRetryInterceptor implements Interceptor {
         }
     }
 
-    public abstract String getAccessToken();
+    protected abstract String getAccessToken();
 
-    public abstract IOException refreshAccessToken();
+    protected abstract IOException refreshAccessToken();
 
-    public abstract void performRefreshFailure(IOException e);
+    protected abstract void performRefreshFailure(IOException e);
 }
