@@ -1,7 +1,6 @@
 package com.stablekernel.standardlib;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 public class ErrorHandler {
