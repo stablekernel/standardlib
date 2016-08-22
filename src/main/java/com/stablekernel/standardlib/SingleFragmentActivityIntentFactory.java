@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+@Deprecated
 public class SingleFragmentActivityIntentFactory {
 
     public Class<? extends SingleFragmentActivity> activityClass = SingleFragmentActivity.class;
