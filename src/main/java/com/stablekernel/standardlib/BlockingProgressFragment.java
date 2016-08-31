@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import rx.Subscription;
 
+import static android.view.View.*;
+
 public class BlockingProgressFragment extends DialogFragment {
     public static final String TAG = BlockingProgressFragment.class.getSimpleName();
     private static final String ARGS_PROGRESS_TEXT = "ARGS_PROGRESS_TEXT";
@@ -37,7 +39,7 @@ public class BlockingProgressFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
+        if (getArguments() != null && getArguments().containsKey(ARGS_PROGRESS_TEXT)) {
             progressText = getArguments().getString(ARGS_PROGRESS_TEXT);
         }
     }
@@ -63,6 +65,7 @@ public class BlockingProgressFragment extends DialogFragment {
         if (progressText != null) {
             TextView progressTextView = (TextView) view.findViewById(R.id.progress_text);
             progressTextView.setText(progressText);
+            progressTextView.setVisibility(VISIBLE);
         }
     }
 
