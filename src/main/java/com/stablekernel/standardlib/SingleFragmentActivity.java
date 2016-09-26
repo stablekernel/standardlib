@@ -2,11 +2,11 @@ package com.stablekernel.standardlib;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class SingleFragmentActivity extends ActionBarActivity {
+public class SingleFragmentActivity extends AppCompatActivity {
     public static final String EXTRA_FRAGMENT_NAME = "EXTRA_FRAGMENT_NAME";
     private Toolbar toolbar;
     private boolean traceLog;
