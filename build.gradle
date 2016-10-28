@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 9
     }
 
     compileOptions {
@@ -27,7 +27,7 @@ sourceSets {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
 
     provided 'com.squareup.okhttp:okhttp:2.4.0'
     provided 'com.squareup.retrofit:retrofit:1.9.0'
