@@ -16,7 +16,7 @@ public class SingleFragmentActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         if (traceLog) Log.d("TRACE", "--> SingleFragmentActivity.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment);
