@@ -95,7 +95,6 @@ public abstract class RxFragment extends DialogFragment {
     @Deprecated
     protected <T> Observable<T> bind(Observable<T> observable) {
         return observable.compose(Rx.<T>bind(this));
-//        return LifecycleObservable.bindFragmentLifecycle(lifecycle(), boundObservable);
     }
 
     //TODO: move this to a util class

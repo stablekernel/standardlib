@@ -5,12 +5,12 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 14
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 }
 
@@ -32,6 +32,6 @@ dependencies {
     provided 'com.squareup.okhttp:okhttp:2.4.0'
     provided 'com.squareup.retrofit:retrofit:1.9.0'
 
-    provided 'io.reactivex:rxjava:1.0.8'
-    provided 'io.reactivex:rxandroid:0.24.0'
+    compile "io.reactivex:rxandroid:1.2.1"
+    compile "io.reactivex:rxjava:1.2.5"
 }
