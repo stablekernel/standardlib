@@ -21,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+/**
+ * @deprecated  Use TextInputLayout from the Material Design Support library since support v22.2.0
+ */
+@Deprecated
 public class FloatLabelLayout extends LinearLayout {
 
     private static final long ANIMATION_DURATION = 150;
