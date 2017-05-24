@@ -7,14 +7,21 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+/**
+ * LoadingImageView displays an arbitrary image, such as an icon, overlayed with a progressBar.
+ * The LoadingImageView class subclasses FrameLayout class, but implements ImageView class to display images.
+ * It can load images from various sources (such as resources or content providers). There is also a getter
+ * method to access the underlying ImageView so images can be loaded using libraries such as Picasso.
+ *
+ * @attr ref R.styleable#LoadingImageView_imageSrc
+ * @attr ref R.styleable#LoadingImageView_imageScaleType
+ */
 
 public class LoadingImageView extends FrameLayout {
     private ImageView imageView;
@@ -38,12 +45,14 @@ public class LoadingImageView extends FrameLayout {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LoadingImageView);
 
         Drawable image = a.getDrawable(R.styleable.LoadingImageView_imageSrc);
-        int imageHeight = a.getDimensionPixelSize(R.styleable.LoadingImageView_imageHeight, dipsToPix(WRAP_CONTENT));
-        int imageWidth = a.getDimensionPixelSize(R.styleable.LoadingImageView_imageWidth, dipsToPix(WRAP_CONTENT));
+        int scaleType = a.getInteger(R.styleable.LoadingImageView_imageScaleType, -1);
 
         imageView.setImageDrawable(image);
-        imageView.getLayoutParams().height = imageHeight;
-        imageView.getLayoutParams().width = imageWidth;
+
+        if (scaleType >= 0) {
+            ImageView.ScaleType selectedScaleType = ImageView.ScaleType.values()[scaleType];
+            imageView.setScaleType(selectedScaleType);
+        }
 
         a.recycle();
     }
@@ -56,15 +65,12 @@ public class LoadingImageView extends FrameLayout {
         imageView.setImageDrawable(drawable);
     }
 
-    public void setProgressVisibility(int visibility) {
-        progressBar.setVisibility(visibility);
+    public void showProgessBar(boolean isVisible) {
+        progressBar.setVisibility(isVisible ? GONE : VISIBLE);
     }
 
-    /**
-     * Helper method to convert dips to pixels.
-     */
-    private int dipsToPix(float dps) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dps,
-                getResources().getDisplayMetrics());
+
+    public ImageView getImageView() {
+        return imageView;
     }
 }
