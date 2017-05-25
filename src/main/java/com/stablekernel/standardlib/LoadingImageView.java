@@ -66,10 +66,9 @@ public class LoadingImageView extends FrameLayout {
     }
 
     public void showProgessBar(boolean isVisible) {
-        progressBar.setVisibility(isVisible ? GONE : VISIBLE);
+        progressBar.setVisibility(isVisible ? VISIBLE : GONE);
     }
-
-
+    
     public ImageView getImageView() {
         return imageView;
     }
