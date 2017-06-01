@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Ignoring overdraw warning related to setting android:background attribute.
+Removing this line causes the toolbar color to be incorrect.
+-->
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
                                    android:id="@+id/toolbar"
                                    android:layout_height="wrap_content"
                                    android:layout_width="match_parent"
                                    android:minHeight="?attr/actionBarSize"
                                    app:theme="@style/ToolbarTheme"
-                                   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                                   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                                   android:background="?attr/colorPrimary"
+                                   tools:ignore="Overdraw"/>
