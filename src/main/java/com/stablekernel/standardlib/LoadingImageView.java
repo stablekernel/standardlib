@@ -57,12 +57,14 @@ public class LoadingImageView extends FrameLayout {
         a.recycle();
     }
 
-    public void setImageResource(int resourceId) {
+    public void setImageResource(int resourceId, @Nullable String contentDescription) {
         imageView.setImageResource(resourceId);
+        imageView.setContentDescription(contentDescription);
     }
 
-    public void setImageDrawable(Drawable drawable) {
+    public void setImageDrawable(Drawable drawable, @Nullable String contentDescription) {
         imageView.setImageDrawable(drawable);
+        imageView.setContentDescription(contentDescription);
     }
 
     public void showProgessBar(boolean isVisible) {
